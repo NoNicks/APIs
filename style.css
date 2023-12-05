@@ -1,19 +1,1 @@
-#WidgetTutiempo{all:initial;*{all:unset;}}
-#WidgetTutiempo{font-family:sans-serif,Arial,Helvetica;font-size:14px;}
-#WidgetTutiempo p{margin:0;padding:5px; padding-left:0; padding-right:0;}
-#WidgetTutiempo .header{clear:both;float:none;}
-#WidgetTutiempo .header h2{margin:0;margin-top:10px;}
-#WidgetTutiempo .header p{margin:0;}
-#WidgetTutiempo .date{margin:0;padding-top:10px;padding-bottom:5px;clear:both;float:none;}
-#WidgetTutiempo .daydata{clear:both;float:none;}
-#WidgetTutiempo .it{line-height:25px; float:left; margin-right:20px;height:50px;white-space:nowrap;}
-#WidgetTutiempo .it img{float:left;margin-right:10px;}
-#WidgetTutiempo .wind{float:left; margin-right:20px;line-height:50px;height:50px;white-space:nowrap;}
-#WidgetTutiempo .wind img{float:left;margin-right:10px;}
-#WidgetTutiempo .oc{float:left; margin-right:20px;height:50px;}
-#WidgetTutiempo .moon{line-height:25px;float:left; height:50px;white-space:nowrap;}
-#WidgetTutiempo .moon img{float:left;margin-right:10px;}
-#WidgetTutiempo .time{margin:0; padding:0;clear:both;float:none;padding-top:10px;padding-bottom:5px;}
-#WidgetTutiempo .linkTT{clear: both; float: none;}
-
 #map { height: 180px; }
