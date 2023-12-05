@@ -1,20 +1,21 @@
-//CAIXA DE DIGITAR
-document.querySelector('#cep-button').addEventListener('click', (evt) => {
+document.querySelector('#button-cep').addEventListener('click', (evt) => { 
     let cep = document.querySelector('#input-cep').value;
+    console.log(cep);
 
     fetch(`https://viacep.com.br/ws/${cep}/json/`)
         .then((res) => res.json())
         .then((res) => {
+            console.log(res);
 
-            buscaEndereco(res);
-            buscaTemp(res.localidade);
-            buscaNoticias(res.localidade);
+            setEndereco(res);
+            buscaPrevTemp(res.localidade);
+            buscaNoticia(res.localidade);
         });
          
 });
 
-//CEP - VIACEP
-const buscaEndereco = (objEndereco) =>{
+// API ENDERECO - VIACEP
+const setEndereco = (objEndereco) =>{
     let divEndereco = document.querySelector('#endereco');
     
     let enderecoCompleto = `${objEndereco.logradouro}, ${objEndereco.bairro}, ${objEndereco.localidade} - ${objEndereco.uf}`;
@@ -23,13 +24,13 @@ const buscaEndereco = (objEndereco) =>{
 
     divEndereco.innerHTML = '';
     divEndereco.appendChild(enderecoElement);
+    
 }
 
+// API DE PRE-VISAO TEMPO - OPENWEATHER
+const buscaPrevTemp = (localidade) => {
 
-//PREVISÃO DO TEMPO - OPENWEATHER
-const buscaTemp = (localidade) => {
-
-    const apiKeyPre = '69bee774fa77cd777b8598a67b9ac5e2';
+    const apiKeyPre = '3719640e7f2f767e2d68b64726db4378';
     const apiUtl = `https://api.openweathermap.org/data/2.5/weather?q=${localidade}&appid=${apiKeyPre}&units=metric`;
 
     fetch(apiUtl)
@@ -37,7 +38,7 @@ const buscaTemp = (localidade) => {
         .then((data) => {
 
             if(data.cod == '200') {
-                exibeTemp(data);
+                exibePrevisaoTempo(data);
             } else {
                 console.error('Erro na Busca de previsão do tempo', data.message);
             }
@@ -47,49 +48,70 @@ const buscaTemp = (localidade) => {
         });
 };
 
-const exibeTemp = (dados) => {
-    let divPrevTemp = document.querySelector('#temp');
+const exibePrevisaoTempo = (dados) => {
+    let divPrevTemp = document.querySelector('#previsaotemp');
     
     let tempAtual = dados.main.temp;
     let tempMin = dados.main.temp_min;
     let tempMax = dados.main.temp_max;
-    let descTemp = dados.weather[0].description;
+    let descTempo = dados.weather[0].description;
     
 
     let prevElement = document.createElement('p');
-    prevElement.textContent = `Temperatura Atual: ${tempAtual}°C, Condição: ${descTemp}, Temperatura Minima: ${tempMin}°C, Temperatura Maxima: ${tempMax}°C`;
+    prevElement.textContent = `Temperatura Atual: ${tempAtual}°C, Condição: ${descTempo}, Temperatura Minima: ${tempMin}°C, Temperatura Maxima: ${tempMax}°C`;
 
     divPrevTemp.innerHTML = '';
     divPrevTemp.appendChild(prevElement);
 
-//mapa - LEAFLET
-if(mapa === undefined) {
-    mapa = L.mapa('mapa').setView([dados.coord.lat, dados.coord.lon], 15);
-} else {
-    mapa.remove();
-    mapa = L.mapa('mapa').setView([dados.coord.lat, dados.coord.lon], 15);
-}
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(mapa);
+    // API Mapa 
+    if(map === undefined) {
+        map = L.map('map').setView([dados.coord.lat, dados.coord.lon], 15);
+    } else {
+        map.remove();
+        map = L.map('map').setView([dados.coord.lat, dados.coord.lon], 15);
+    }
 
-L.marker([dados.coord.lat, dados.coord.lon]).addTo(mapa)
-    .bindPopup('Posição Atual')
-    .openPopup();
-}
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+            // marcador no map
+    L.marker([dados.coord.lat, dados.coord.lon]).addTo(map)
+        .bindPopup('Posição Atual')     // menssagem 
+        .openPopup();
 
-const busacNoticias = (noticias) => {
-    const divNoticias = document.querySelector('#noticias');
+};
+// MAP GlOBAL - para poder atualizar!
+let map;
+
+
+// Api de Notias NEWSAPI
+const buscaNoticia = (localidade) => {
+    
+    const apiKeyNoticia = '25a66875c1ec43199007fe2a745dd7bb';
+    const apiNoticiasUrl = `https://newsapi.org/v2/top-headlines?q=${localidade}&apiKey=${apiKeyNoticia}`;
+
+    fetch(apiNoticiasUrl)
+        .then((res) => res.json())
+        .then((data) => {
+            exibeNoticias(data.articles);
+        })
+        .catch((error) => {
+            console.error('Erro na busca de notícias:', error);
+        });
+        
+};
+
+const exibeNoticias = (noticias) => {
+    const divNoticias = document.querySelector('#noticia');
     divNoticias.innerHTML = '';
 
     if (noticias.length > 0) {
         const ul = document.createElement('ul');
 
-        noticias.forEach((noticias) => {
+        noticias.forEach((noticia) => {
             const li = document.createElement('li');
-            li.innerHTML = `<strong>${noticias.title}</strong>: ${noticias.description}`;
+            li.innerHTML = `<strong>${noticia.title}</strong>: ${noticia.description}`;
             ul.appendChild(li);
         });
 
