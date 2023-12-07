@@ -9,7 +9,7 @@ document.querySelector('#button-cep').addEventListener('click', (evt) => {
 
             setEndereco(res);
             buscaPrevTemp(res.localidade);
-            buscaNoticia(res.localidade);
+            exibeNoticias(res.localidade);
         });
          
 });
@@ -64,7 +64,7 @@ const exibePrevisaoTempo = (dados) => {
     divPrevTemp.appendChild(prevElement);
 
 
-    // API Mapa 
+    // API - MAPA 
     if(map === undefined) {
         map = L.map('map').setView([dados.coord.lat, dados.coord.lon], 15);
     } else {
@@ -75,9 +75,9 @@ const exibePrevisaoTempo = (dados) => {
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
-            // marcador no map
+            // marcador do mapa
     L.marker([dados.coord.lat, dados.coord.lon]).addTo(map)
-        .bindPopup('Posição Atual')     // menssagem 
+        .bindPopup('Posição Atual')
         .openPopup();
 
 };
@@ -88,8 +88,8 @@ let map;
 // Api de Notias NEWSAPI
 const buscaNoticia = (localidade) => {
     
-    const apiKeyNoticia = '25a66875c1ec43199007fe2a745dd7bb';
-    const apiNoticiasUrl = `https://newsapi.org/v2/top-headlines?q=${localidade}&apiKey=${apiKeyNoticia}`;
+    
+    const apiNoticiasUrl = `https://newsapi.org/v2/top-headlines?q=${localidade}&apiKey=25a66875c1ec43199007fe2a745dd7bb`;
 
     fetch(apiNoticiasUrl)
         .then((res) => res.json())
@@ -105,7 +105,6 @@ const buscaNoticia = (localidade) => {
 const exibeNoticias = (noticias) => {
     const divNoticias = document.querySelector('#noticia');
     divNoticias.innerHTML = '';
-
     if (noticias.length > 0) {
         const ul = document.createElement('ul');
 
@@ -115,7 +114,7 @@ const exibeNoticias = (noticias) => {
             ul.appendChild(li);
         });
 
-        divNoticias.appendChild(ul);
+        divNoticias.appendChild('ul');
     } else {
         divNoticias.textContent = 'Nenhuma notícia encontrada para esta região.';
     }
