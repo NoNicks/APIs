@@ -77,7 +77,7 @@ const exibePrevisaoTempo = (dados) => {
     }).addTo(map);
             // marcador do mapa
     L.marker([dados.coord.lat, dados.coord.lon]).addTo(map)
-        .bindPopup('Posição Atual')
+        .bindPopup('Você está aqui!')
         .openPopup();
 
 };
@@ -88,8 +88,8 @@ let map;
 // Api de Notias NEWSAPI
 const buscaNoticia = (localidade) => {
     
-    
-    const apiNoticiasUrl = `https://newsapi.org/v2/top-headlines?q=${localidade}&apiKey=25a66875c1ec43199007fe2a745dd7bb`;
+    const apiKeyNoticia = '25a66875c1ec43199007fe2a745dd7bb';
+    const apiNoticiasUrl = `https://newsapi.org/v2/top-headlines?q=${localidade}&apiKey=${apiKeyNoticia}`;
 
     fetch(apiNoticiasUrl)
         .then((res) => res.json())
