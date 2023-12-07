@@ -3,7 +3,13 @@ body, h1, h2, h3, p, form, input, button {
     margin: 0;
     padding: 0;
     border: 0;
-    background-color: antiquewhite
+  }
+
+  .container{
+    max-width: 450px;
+    background-color: midnightblue;
+    display: flex;
+    justify-content: center;
   }
   
   #cep{
@@ -40,6 +46,5 @@ body, h1, h2, h3, p, form, input, button {
     justify-content: center;
     margin-left: 25%;
     margin-right: 25%;
+    height: 300px;
   }
-
-  #map { height: 300px; }
