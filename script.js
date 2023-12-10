@@ -55,7 +55,6 @@ const exibePrevisaoTempo = (dados) => {
     let tempMin = dados.main.temp_min;
     let tempMax = dados.main.temp_max;
     let descTempo = dados.weather[0].description;
-    
 
     let prevElement = document.createElement('p');
     prevElement.textContent = `Temperatura Atual: ${tempAtual}°C, Condição: ${descTempo}, Temperatura Minima: ${tempMin}°C, Temperatura Maxima: ${tempMax}°C`;
@@ -64,7 +63,7 @@ const exibePrevisaoTempo = (dados) => {
     divPrevTemp.appendChild(prevElement);
 
 
-    // API - MAPA 
+    //MAPA 
     if(map === undefined) {
         map = L.map('map').setView([dados.coord.lat, dados.coord.lon], 15);
     } else {
@@ -75,16 +74,16 @@ const exibePrevisaoTempo = (dados) => {
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
-            // marcador do mapa
+
     L.marker([dados.coord.lat, dados.coord.lon]).addTo(map)
         .bindPopup('Você está aqui!')
         .openPopup();
 
 };
-// MAP GlOBAL - para poder atualizar!
+//MAP GlOBAL-att
 let map;
 
-//Api de Notias NEWSAPI
+//NEWSAPI
 const buscaNoticia = (localidade) => {
     console.log(localidade);
   //key = '25a66875c1ec43199007fe2a745dd7bb';
@@ -104,8 +103,7 @@ const buscaNoticia = (localidade) => {
 const exibeNoticias = (noticias) => {
   const divNoticias = document.querySelector('#noticia');
   divNoticias.innerHTML = '';
-
-  console.log(noticias);
+  
   if (noticias.length > 0) {
       const ul = document.createElement('ul');
 
