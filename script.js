@@ -30,7 +30,7 @@ const setEndereco = (objEndereco) =>{
 // API DE PRE-VISAO TEMPO - OPENWEATHER
 const buscaPrevTemp = (localidade) => {
 
-    const apiKeyPre = '3719640e7f2f767e2d68b64726db4378';
+    const apiKeyPre = '3535d7af2b2f6d156d920d701a473cc0';
     const apiUtl = `https://api.openweathermap.org/data/2.5/weather?q=${localidade}&appid=${apiKeyPre}&units=metric`;
 
     fetch(apiUtl)
@@ -84,38 +84,42 @@ const exibePrevisaoTempo = (dados) => {
 // MAP GlOBAL - para poder atualizar!
 let map;
 
-
 // Api de Notias NEWSAPI
 const buscaNoticia = (localidade) => {
-    
-    const apiKeyNoticia = '25a66875c1ec43199007fe2a745dd7bb';
-    const apiNoticiasUrl = `https://newsapi.org/v2/top-headlines?q=${localidade}&apiKey=${apiKeyNoticia}`;
+    console.log(localidade);
+  const apiNoticiasUrl = ` https://newsapi.org/v2/everything?q=brasil&from=2023-12-01&sortBy=popularity&language=pt&pageSize=4&apiKey=25a66875c1ec43199007fe2a745dd7bb`;
 
-    fetch(apiNoticiasUrl)
-        .then((res) => res.json())
-        .then((data) => {
-            exibeNoticias(data.articles);
-        })
-        .catch((error) => {
-            console.error('Erro na busca de notícias:', error);
-        });
-        
+  fetch(apiNoticiasUrl)
+      .then((res) => res.json())
+      .then((data) => {
+          exibeNoticias(data.articles);
+          
+      })
+      .catch((error) => {
+          console.error('Erro na busca de notícias:', erro);
+      });
+      
 };
 
 const exibeNoticias = (noticias) => {
     const divNoticias = document.querySelector('#noticia');
     divNoticias.innerHTML = '';
+  
     if (noticias.length > 0) {
         const ul = document.createElement('ul');
-
+  
         noticias.forEach((noticia) => {
+          console.log(noticia);
             const li = document.createElement('li');
             li.innerHTML = `<strong>${noticia.title}</strong>: ${noticia.description}`;
             ul.appendChild(li);
         });
-
-        divNoticias.appendChild('ul');
+  
+        divNoticias.appendChild(ul);
     } else {
         divNoticias.textContent = 'Nenhuma notícia encontrada para esta região.';
     }
-};
+  };
+  
+  //para saber se api vai estar funcionando 
+//https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=3535d7af2b2f6d156d920d701a473cc0//
