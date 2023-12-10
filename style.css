@@ -55,6 +55,7 @@ body, h1, h2, h3, p, form, input, button {
     font-size: 1.4em;
     color: white;
   }
+  
 
   #map{
     display: flex;
@@ -68,5 +69,5 @@ body, h1, h2, h3, p, form, input, button {
 
   @media only screen and (max-width: 400px){
 
-    
+
   }
